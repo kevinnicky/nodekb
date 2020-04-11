@@ -11,7 +11,7 @@ const User = require('../models/user');
 router.get("/edit/:id", ensureAuthenticated, (req, res) => {
     Article.findById(req.params.id, (err, article) => {
         if (article.author != req.user._id){
-            req.flash('danger', 'Not Authorized');
+            req.flash('danger', 'Cannot edit this article');
             res.redirect('/');
         }
         else{
@@ -23,12 +23,13 @@ router.get("/edit/:id", ensureAuthenticated, (req, res) => {
     });
 })
 
-// Update POST route
+// Edit post route
 router.post("/edit/:id", (req, res) => {
-    let article = {};
-    article.title = req.body.title;
-    article.author = req.body.author;
-    article.body = req.body.body;
+    let article = {
+        title: req.body.title,
+        author: req.user._id,
+        body: req.body.body
+    };
 
     let query = {_id: req.params.id};
 

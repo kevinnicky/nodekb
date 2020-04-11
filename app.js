@@ -8,24 +8,12 @@ const config = require('./config/database');
 const passport = require('passport');
 
 // Connect to mongoose
-mongoose.connect(config.database, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-    });
-let db = mongoose.connection;
+mongoose.connect(config.mongoURI, {useNewUrlParser: true, useUnifiedTopology: true})
+    .then(() => console.log('MongoDB Connected...'))
+    .catch(err => console.log(err));
 
 // Bring in model
 const Article = require('./models/article');
-
-// Check connection
-db.once('open', () => {
-    console.log("Connected to MongoDB");
-})
-
-// Check for db errors
-db.on('error', (err) => {
-    console.log(err);
-});
 
 // Init app
 const app = express();
@@ -104,6 +92,8 @@ app.use('/articles', articles)
 let users = require('./routes/users.js');
 app.use('/users', users);
 
-app.listen(3000, () => {
-    console.log('Server started on port 3000....');
+const port = process.env.PORT || 5000;
+
+app.listen(port, () => {
+    console.log(`Server started on port ${port}....`);
 });

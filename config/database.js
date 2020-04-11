@@ -1,4 +1,3 @@
 module.exports = {
-    database: 'mongodb://localhost:27017/nodekb',
-    secret: 'yoursecret'
+    mongoURI: 'mongodb+srv://kevin:sg10RJGAk0gfDbRO@nodekb-xqbns.mongodb.net/test?retryWrites=true&w=majority'
 }
